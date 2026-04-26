@@ -4,7 +4,7 @@ A pipeline that predicts short-term stress events on the S&P 500 E-mini (ES) fut
 
 ## What it does
 
-For each trading day, the model predicts whether a stress event will happen in the next **1, 3, or 5 days**.
+For each trading day, the model predicts whether a stress event will happen in the next **1, or 3 days**.
 
 A stress event is a day with either:
 - A very large drop (return in the bottom 1% of the training set), **or**
@@ -49,7 +49,7 @@ Config: `model_config.yaml` (horizons, model grids, metrics, walk-forward settin
 - Logistic Regression (baseline)
 - XGBoost
 - CatBoost
-- GARCH(p,q) — volatility baseline
+- GARCH(p,q) - volatility baseline
 
 All grids live in `model_config.yaml`.
 
@@ -77,13 +77,18 @@ FRED_KEY=your_fred_api_key
 ```
 
 ### 3. Run notebooks in order
+
+**Data is not in the repo.** You need to build it locally by running the first two notebooks. They will create the `data/` folder.
+
 ```
-1. data_collection_and_cleaning.ipynb
-2. sentiment_analysis.ipynb
+1. data_collection_and_cleaning.ipynb     # builds data/raw and data/processed
+2. sentiment_analysis.ipynb               # builds sentiment data
 3. feature_engineering_and_label_generation.ipynb
 4. model_training_and_evaluation.ipynb
-5. ablation_model_training.ipynb     (optional)
+5. ablation_model_training.ipynb          (optional)
 ```
+
+Note: ES and DXY futures CSVs are not free from FRED. You will need to source them yourself (e.g. from your data provider) and place them in `data/raw/` as `ES.csv` and `DXY.csv` before running notebook 1.
 
 ## Folder layout
 
@@ -100,7 +105,7 @@ FRED_KEY=your_fred_api_key
 │   ├── labels.py
 │   ├── garch_model.py
 │   └── garch_stress.py
-├── data/
+├── data/             # not committed - built locally by notebooks 1 & 2
 │   ├── raw/          # downloaded CSVs
 │   ├── processed/    # cleaned and merged
 │   ├── models/       # fitted models
@@ -119,9 +124,9 @@ FRED_KEY=your_fred_api_key
 
 ## References
 
-- Holló, Kremer & Lo Duca (2012). *CISS — A Composite Indicator of Systemic Stress in the Financial System.*
+- Holló, Kremer & Lo Duca (2012). *CISS - A Composite Indicator of Systemic Stress in the Financial System.*
 - Kritzman & Li (2010). *Skulls, Financial Turbulence, and Risk Management.*
 
 ## License
 
-MIT.
+MIT © Henok M. Mekuria
